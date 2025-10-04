@@ -1,11 +1,13 @@
 import os
 import requests
 import cloudinary
-from cloudinary.utils import cloudinary_url
-import fitz
 from dotenv import load_dotenv
+from cloudinary import api
+from pdf2image import convert_from_bytes
+import pytesseract
 
 load_dotenv()
+
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
     api_key=os.getenv("CLOUDINARY_API_KEY"),
@@ -13,21 +15,24 @@ cloudinary.config(
 )
 
 def fetch_pdf_from_cloud(public_id: str):
-    url, _ = cloudinary_url(
-        public_id,
-        resource_type="raw",
-        type="authenticated"  
-    )
+    """
+    Fetches a raw PDF from Cloudinary using the authenticated resource API.
+    """
+    file_info = api.resource(public_id, resource_type="raw")
+    url = file_info['secure_url']
 
     response = requests.get(url)
     response.raise_for_status()
     return response.content
 
 def ocr_pdf(pdf_bytes: bytes):
+    """
+    Extract text from PDF using pytesseract (Tesseract OCR) instead of fitz.
+    """
     text = ""
-    with fitz.open(stream=pdf_bytes, filetype="pdf") as doc:
-        for page in doc:
-            text += page.get_text()
+    pages = convert_from_bytes(pdf_bytes)  # Convert each PDF page to image
+    for page in pages:
+        text += pytesseract.image_to_string(page)
     return text
 
 def extract_text_from_resume(public_id: str):

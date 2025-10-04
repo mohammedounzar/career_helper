@@ -27,6 +27,14 @@ public class ResumeParserApplication {
                 .build();
     }
 
+    @Bean
+    public NewTopic ocr_responses_topic() {
+        return TopicBuilder.name(OCR_RESPONSES_TOPIC)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
     // Listens for messages published to the OCR_RESPONSES_TOPIC topic in Kafka
     @KafkaListener(topics = OCR_RESPONSES_TOPIC, id="resume-parser")
     public void listen(String message) {
