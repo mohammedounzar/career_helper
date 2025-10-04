@@ -23,7 +23,7 @@ def update_resume(resume_id: int, content: str):
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
-        "UPDATE resume SET ocrResult = %s, state = %s WHERE id = %s",
+        "UPDATE resume SET ocr_result = %s, state = %s WHERE id = %s",
         (content, "PROCESSED", resume_id)
     )
     conn.commit()
