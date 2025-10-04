@@ -9,13 +9,16 @@ import org.springframework.kafka.config.TopicBuilder;
 
 import static ma.mohammedounzar.resumeparser.common.Constants.OCR_REQUESTS_TOPIC;
 
+import static ma.mohammedounzar.resumeparser.common.Constants.OCR_RESPONSES_TOPIC;
+
 @SpringBootApplication
-public class ResumeparserApplication {
+public class ResumeParserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ResumeparserApplication.class, args);
+        SpringApplication.run(ResumeParserApplication.class, args);
     }
 
+    // Defines (creates if not already existing) a Kafka topic named OCR_REQUESTS_TOPIC
     @Bean
     public NewTopic ocr_requests_topic() {
         return TopicBuilder.name(OCR_REQUESTS_TOPIC)
@@ -24,7 +27,8 @@ public class ResumeparserApplication {
                 .build();
     }
 
-    @KafkaListener(topics = OCR_REQUESTS_TOPIC, id="resume-parser")
+    // Listens for messages published to the OCR_RESPONSES_TOPIC topic in Kafka
+    @KafkaListener(topics = OCR_RESPONSES_TOPIC, id="resume-parser")
     public void listen(String message) {
         System.out.println(message);
     }
