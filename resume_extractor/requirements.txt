@@ -5,4 +5,4 @@ textract==1.6.5
 python-dotenv==1.0.1    
 cloudinary
 pdf2image
-pytesseract
+pypdf

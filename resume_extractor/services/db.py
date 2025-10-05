@@ -10,7 +10,7 @@ def get_connection():
         port=os.getenv("DB_PORT")
     )
 
-def get_resume_path(resume_id: int):
+def get_resume_path(resume_id):
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("SELECT object_path FROM resume WHERE id = %s", (resume_id,))
@@ -19,12 +19,12 @@ def get_resume_path(resume_id: int):
     conn.close()
     return row[0] if row else None
 
-def update_resume(resume_id: int, content: str):
+def update_resume(resume_id, content):
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
         "UPDATE resume SET ocr_result = %s, state = %s WHERE id = %s",
-        (content, "PROCESSED", resume_id)
+        (content, "OCR_DONE", resume_id)
     )
     conn.commit()
     cur.close()
