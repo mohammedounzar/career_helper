@@ -3,32 +3,35 @@ package ma.mohammedounzar.resumeparser.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "resume")
 public class Resume {
-
-    public enum State {
+    public enum state {
         WAITING,
         OCR_QUEUED, OCR_IN_PROGRESS, OCR_DONE, OCR_FAILED,
-        PARSE_IN_PROGRESS, PARSE_DONE, PARSE_FAILED
+        PARSE_IN_PROGRESS, PARSE_DONE, PARSE_FAILED,
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
     private String objectPath;
 
+    @Lob
     private String ocrResult;
 
     private String parseResult;
 
-    private State state;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private state state;
 
-    // --- Constructors ---
-    public Resume() {}
+    // No-args constructor
+    public Resume() {
+    }
 
-    public Resume(Long id, String objectPath, String ocrResult, String parseResult, State state) {
+    // All-args constructor
+    public Resume(Long id, String objectPath, String ocrResult, String parseResult, state state) {
         this.id = id;
         this.objectPath = objectPath;
         this.ocrResult = ocrResult;
@@ -36,7 +39,7 @@ public class Resume {
         this.state = state;
     }
 
-    // --- Getters & Setters ---
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -69,11 +72,11 @@ public class Resume {
         this.parseResult = parseResult;
     }
 
-    public State getState() {
+    public state getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(state state) {
         this.state = state;
     }
 }
