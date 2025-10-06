@@ -7,9 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.TopicBuilder;
 
-import static ma.mohammedounzar.resumeparser.common.Constants.OCR_REQUESTS_TOPIC;
-
-import static ma.mohammedounzar.resumeparser.common.Constants.OCR_RESPONSES_TOPIC;
+import static ma.mohammedounzar.resumeparser.common.Constants.*;
 
 @SpringBootApplication
 public class ResumeParserApplication {
@@ -30,6 +28,14 @@ public class ResumeParserApplication {
     @Bean
     public NewTopic ocr_responses_topic() {
         return TopicBuilder.name(OCR_RESPONSES_TOPIC)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic job_desc_topic() {
+        return TopicBuilder.name(JOB_DESC_TOPIC)
                 .partitions(1)
                 .replicas(1)
                 .build();

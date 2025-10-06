@@ -33,7 +33,8 @@ def update_resume(resume_id, content):
 def get_job_description(job_desc_id):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("SELECT description FROM job_description WHERE id = %s", (job_desc_id))
-    conn.commit()
+    cur.execute("SELECT description FROM job_description WHERE id = %s", (job_desc_id,))
+    row = cur.fetchone()
     cur.close()
     conn.close()
+    return row[0] if row else None

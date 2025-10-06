@@ -1,10 +1,10 @@
 from confluent_kafka import Consumer
 import os
 
-def consume(conf):
+def consume(conf, topic):
 
     consumer = Consumer(conf)
-    consumer.subscribe([os.getenv("KAFKA_TOPIC_REQUEST")])
+    consumer.subscribe([os.getenv(topic)])
 
     print("✅ Resume Extractor listening to Kafka...")
     while True:
@@ -16,8 +16,8 @@ def consume(conf):
             continue
 
         try:
-            resume_id = int(msg.value().decode('utf-8'))
-            print(f"✅ Resume {resume_id} processed successfully.")
-            return resume_id
+            id = int(msg.value().decode('utf-8'))
+            print(f"✅ ID: {id} processed successfully.")
+            return id
         except Exception as e:
-            print(f"❌ Error processing resume: {e}")
+            print(f"❌ Error processing: {e}")
