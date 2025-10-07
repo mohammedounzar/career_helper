@@ -22,6 +22,7 @@ public class JobDescriptionService {
     public void saveJobDescription(JobDescription jobDescription) {
         JobDescription savedJobDescription = jobDescriptionRepository.save(jobDescription);
 
+        // Exceptions management needed here
         kafkaTemplate.send(JOB_DESC_TOPIC, savedJobDescription.getId().toString());
     }
 }

@@ -6,7 +6,7 @@ def consume(conf, topic):
     consumer = Consumer(conf)
     consumer.subscribe([os.getenv(topic)])
 
-    print("✅ Resume Extractor listening to Kafka...")
+    print("✅ Resume Extractor Service listening to Kafka...")
     while True:
         msg = consumer.poll(1.0)
         if msg is None:
