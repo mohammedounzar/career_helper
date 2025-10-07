@@ -41,7 +41,7 @@ def main():
                     description = get_job_description(job_desc_id)
                     print(f"✅ Job Description {job_desc_id} fetched successfully from the database. The description: {description}")
                     # call ai-service API
-                    url = "http://localhost:9091/calculateMatch"
+                    url = f"{os.getenv("AI_SERVICE_API_PREFIX")}/calculateMatch"
                     params = {
                         "jobDescription": description,
                         "resumeText": ocr_result,
