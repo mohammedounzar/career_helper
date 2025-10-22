@@ -1,8 +1,6 @@
 package ma.mohammedounzar.resumeparser.controller;
 
-import ma.mohammedounzar.resumeparser.exceptions.BadRequestException;
 import ma.mohammedounzar.resumeparser.model.JobDescription;
-import ma.mohammedounzar.resumeparser.repository.JobDescriptionRepository;
 import ma.mohammedounzar.resumeparser.service.JobDescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
