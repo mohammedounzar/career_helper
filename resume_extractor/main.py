@@ -31,17 +31,17 @@ def main():
                 ocr_result = extract_text_from_resume(obj_path)
                 update_resume(resume_id, ocr_result)
                 publish(producer_conf)
-                print(f"✅ Resume {resume_id} updated successfully in the database.")
+                print(f"Resume {resume_id} updated successfully in the database.")
 
                 # get job desc id from kafka topic
-                print("📥 Consuming from Kafka topic job description ID...")
+                print("Consuming from Kafka topic job description ID...")
                 job_desc_id = consume(consumer_conf, "KAFKA_JOB_DESC_TOPIC")
                 # get job description
                 if job_desc_id:
                     description = get_job_description(job_desc_id)
-                    print(f"✅ Job Description {job_desc_id} fetched successfully from the database. The description: {description}")
+                    print(f"Job Description {job_desc_id} fetched successfully from the database. The description: {description}")
                     # call ai-service API
-                    url = f"{os.getenv("AI_SERVICE_API_PREFIX")}/calculateMatch"
+                    url = f"{os.getenv('AI_SERVICE_API_PREFIX')}/calculateMatch"
                     params = {
                         "jobDescription": description,
                         "resumeText": ocr_result,
@@ -50,11 +50,11 @@ def main():
                     print(f"AI API status code: {response.status_code}")
                     print(f"Response: {response.text}")
                 else:
-                    print(f"⚠️ No job description ID received from Kafka.")
+                    print(f"No job description ID received from Kafka.")
             else:
-                print(f"⚠️ No object path found for resume {resume_id}")
+                print(f"No object path found for resume {resume_id}")
         else:
-            print("⚠️ No messages received from Kafka.")
+            print("No messages received from Kafka.")
 
 if __name__ == "__main__":
     main()
