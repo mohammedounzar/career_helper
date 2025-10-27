@@ -11,6 +11,6 @@ spring:
         - id: resumeparser
           uri: http://localhost:8081
         - id: gs-uploading-files
-          uri: http://localhost:8082
+          uri: http://localhost:8080
       default-filters:
         - AddResponseHeader=X-Gateway, SpringCloudGateway
